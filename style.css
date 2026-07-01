@@ -1,4 +1,320 @@
 /* ==========================================
+   PARTICLES
+========================================== */
+
+.particle{
+
+position:absolute;
+
+border-radius:50%;
+
+background:rgba(255,255,255,.35);
+
+animation:floatParticle linear infinite;
+
+filter:blur(1px);
+
+}
+
+@keyframes floatParticle{
+
+0%{
+
+transform:translateY(0) scale(1);
+
+opacity:0;
+
+}
+
+20%{
+
+opacity:1;
+
+}
+
+80%{
+
+opacity:1;
+
+}
+
+100%{
+
+transform:translateY(-250px) scale(0);
+
+opacity:0;
+
+}
+
+}
+
+/* ==========================================
+   CURSOR GLOW
+========================================== */
+
+.cursor-glow{
+
+position:fixed;
+
+width:30px;
+
+height:30px;
+
+border-radius:50%;
+
+background:rgba(0,255,255,.45);
+
+pointer-events:none;
+
+transform:translate(-50%,-50%);
+
+filter:blur(15px);
+
+z-index:9999;
+
+transition:.05s linear;
+
+}
+
+/* ==========================================
+   RANDOM SPARKLES
+========================================== */
+
+.sparkle{
+
+position:fixed;
+
+width:6px;
+
+height:6px;
+
+border-radius:50%;
+
+background:#fff;
+
+pointer-events:none;
+
+animation:spark 3s linear forwards;
+
+box-shadow:0 0 20px cyan;
+
+z-index:999;
+
+}
+
+@keyframes spark{
+
+0%{
+
+transform:scale(0);
+
+opacity:1;
+
+}
+
+50%{
+
+transform:scale(1.6);
+
+opacity:1;
+
+}
+
+100%{
+
+transform:translateY(-80px);
+
+opacity:0;
+
+}
+
+}
+
+/* ==========================================
+   ACTIVE MENU
+========================================== */
+
+nav a.active{
+
+color:#00ffff;
+
+}
+
+nav a.active::after{
+
+width:100%;
+
+}
+
+/* ==========================================
+   SCROLLBAR
+========================================== */
+
+::-webkit-scrollbar{
+
+width:10px;
+
+}
+
+::-webkit-scrollbar-track{
+
+background:#111827;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+background:linear-gradient(
+180deg,
+#00ffff,
+#ff00ff);
+
+border-radius:20px;
+
+}
+
+/* ==========================================
+   LOADER EFFECT
+========================================== */
+
+body{
+
+opacity:0;
+
+transition:opacity .8s ease;
+
+}
+
+body.loaded{
+
+opacity:1;
+
+}
+
+/* ==========================================
+   IMAGE HOVER
+========================================== */
+
+.image-box:hover{
+
+transform:scale(1.05);
+
+transition:.5s;
+
+box-shadow:0 0 60px cyan;
+
+}
+
+/* ==========================================
+   BUTTON RIPPLE
+========================================== */
+
+.btn{
+
+position:relative;
+
+overflow:hidden;
+
+}
+
+.btn::before{
+
+content:"";
+
+position:absolute;
+
+width:0;
+
+height:0;
+
+left:50%;
+
+top:50%;
+
+background:rgba(255,255,255,.25);
+
+border-radius:50%;
+
+transform:translate(-50%,-50%);
+
+transition:.6s;
+
+}
+
+.btn:hover::before{
+
+width:350px;
+
+height:350px;
+
+}
+
+/* ==========================================
+   CARD HOVER
+========================================== */
+
+.skill-card:hover,
+.project-card:hover,
+.stat-box:hover{
+
+transform:translateY(-15px) scale(1.04);
+
+}
+
+/* ==========================================
+   FOOTER
+========================================== */
+
+footer{
+
+border-top:1px solid rgba(255,255,255,.15);
+
+}
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media(max-width:768px){
+
+.section-title h2{
+
+font-size:34px;
+
+}
+
+.home-text h1{
+
+font-size:42px;
+
+}
+
+.home-text h2{
+
+font-size:24px;
+
+}
+
+.home-text p{
+
+font-size:16px;
+
+}
+
+.buttons{
+
+justify-content:center;
+
+}
+
+.social-icons{
+
+justify-content:center;
+
+}
+
+}
+/* ==========================================
    GOOGLE FONT
 ========================================== */
 
