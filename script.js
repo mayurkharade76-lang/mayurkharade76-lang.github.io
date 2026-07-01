@@ -1,181 +1,136 @@
-// ==========================
-// Typing Animation
-// ==========================
+/* ==========================================
+   AOS Animation
+========================================== */
 
-const words = [
-    "IT Support Engineer",
-    "L1/L2 Support Specialist",
-    "Microsoft 365 Expert",
-    "Active Directory",
-    "Network Troubleshooter",
-    "Problem Solver"
+AOS.init({
+    duration:1000,
+    once:true,
+    offset:100
+});
+
+/* ==========================================
+   Typing Animation
+========================================== */
+
+const words=[
+"IT Support Engineer",
+"L1 / L2 Support",
+"Microsoft 365 Expert",
+"Active Directory",
+"Network Troubleshooter",
+"Problem Solver"
 ];
 
-let wordIndex = 0;
-let letterIndex = 0;
-let currentWord = "";
-let isDeleting = false;
+let wordIndex=0;
+let charIndex=0;
+let deleting=false;
 
-const typing = document.getElementById("typing");
+const typing=document.getElementById("typing");
 
-function typeEffect() {
+function type(){
 
-    currentWord = words[wordIndex];
+const current=words[wordIndex];
 
-    if (!isDeleting) {
-        typing.textContent = currentWord.substring(0, letterIndex++);
-    } else {
-        typing.textContent = currentWord.substring(0, letterIndex--);
-    }
+if(!deleting){
 
-    let speed = isDeleting ? 60 : 120;
+typing.textContent=current.substring(0,charIndex++);
 
-    if (!isDeleting && letterIndex === currentWord.length + 1) {
-        speed = 1800;
-        isDeleting = true;
-    }
+if(charIndex>current.length){
 
-    if (isDeleting && letterIndex === 0) {
-        isDeleting = false;
-        wordIndex++;
+deleting=true;
 
-        if (wordIndex === words.length) {
-            wordIndex = 0;
-        }
-    }
+setTimeout(type,1800);
 
-    setTimeout(typeEffect, speed);
+return;
+
 }
 
-typeEffect();
+}else{
 
+typing.textContent=current.substring(0,charIndex--);
 
-// ==========================
-// Scroll Animation
-// ==========================
+if(charIndex<0){
 
-const sections = document.querySelectorAll("section");
+deleting=false;
 
-window.addEventListener("scroll", () => {
+wordIndex++;
 
-    sections.forEach(section => {
+if(wordIndex>=words.length){
 
-        const top = window.scrollY;
-        const offset = section.offsetTop - 300;
+wordIndex=0;
 
-        if (top > offset) {
+}
 
-            section.style.opacity = "1";
-            section.style.transform = "translateY(0px)";
+}
 
-        }
+}
 
-    });
+setTimeout(type,deleting?60:120);
 
-});
+}
 
-sections.forEach(section => {
+type();
 
-    section.style.opacity = "0";
-    section.style.transform = "translateY(80px)";
-    section.style.transition = ".8s";
+/* ==========================================
+   Counter Animation
+========================================== */
 
-});
+const counters=document.querySelectorAll(".counter");
 
+const startCounter=(counter)=>{
 
-// ==========================
-// Back To Top Button
-// ==========================
+const target=+counter.dataset.target;
 
-const topBtn = document.createElement("button");
+let count=0;
 
-topBtn.innerHTML = "⬆";
+const speed=target/100;
 
-topBtn.id = "topBtn";
+const update=()=>{
 
-document.body.appendChild(topBtn);
+count+=speed;
 
-topBtn.style.cssText = `
-position:fixed;
-bottom:30px;
-right:30px;
-width:55px;
-height:55px;
-border:none;
-border-radius:50%;
-background:#00e5ff;
-color:#000;
-font-size:24px;
-cursor:pointer;
-display:none;
-box-shadow:0 0 25px cyan;
-z-index:999;
-transition:.3s;
-`;
+if(count<target){
 
-window.addEventListener("scroll", () => {
+counter.innerText=Math.floor(count);
 
-    if (window.scrollY > 300) {
+requestAnimationFrame(update);
 
-        topBtn.style.display = "block";
+}else{
 
-    } else {
+counter.innerText=target+"+";
 
-        topBtn.style.display = "none";
-
-    }
-
-});
-
-topBtn.onclick = () => {
-
-    window.scrollTo({
-
-        top:0,
-        behavior:"smooth"
-
-    });
+}
 
 };
 
+update();
 
-// ==========================
-// Floating Profile Image
-// ==========================
+};
 
-const image = document.querySelector(".image-box");
+const observer=new IntersectionObserver(entries=>{
 
-setInterval(()=>{
+entries.forEach(entry=>{
 
-image.animate([
+if(entry.isIntersecting){
 
-{
-transform:"translateY(0px)"
-},
+startCounter(entry.target);
 
-{
-transform:"translateY(-15px)"
-},
+observer.unobserve(entry.target);
 
-{
-transform:"translateY(0px)"
 }
-
-],{
-
-duration:3000,
-iterations:1
 
 });
 
-},3000);
+});
 
+counters.forEach(counter=>observer.observe(counter));
 
-// ==========================
-// Active Navbar
-// ==========================
+/* ==========================================
+   Active Navbar
+========================================== */
 
-const navLinks = document.querySelectorAll("nav a");
+const sections=document.querySelectorAll("section");
+const navLinks=document.querySelectorAll("nav a");
 
 window.addEventListener("scroll",()=>{
 
@@ -183,9 +138,11 @@ let current="";
 
 sections.forEach(section=>{
 
-const sectionTop=section.offsetTop-150;
+const top=window.scrollY;
+const offset=section.offsetTop-150;
+const height=section.offsetHeight;
 
-if(pageYOffset>=sectionTop){
+if(top>=offset && top<offset+height){
 
 current=section.getAttribute("id");
 
@@ -207,22 +164,276 @@ link.classList.add("active");
 
 });
 
+/* ==========================================
+   Reveal Sections
+========================================== */
 
-// ==========================
-// Mouse Glow Effect
-// ==========================
+const reveal=document.querySelectorAll("section");
 
-document.addEventListener("mousemove",(e)=>{
+window.addEventListener("scroll",()=>{
 
-document.body.style.backgroundPosition =
-`${e.clientX/20}px ${e.clientY/20}px`;
+reveal.forEach(sec=>{
+
+const top=window.innerHeight;
+
+if(sec.getBoundingClientRect().top<top-120){
+
+sec.classList.add("show");
+
+}
 
 });
 
+});
 
-// ==========================
-// Console Message
-// ==========================
+/* ==========================================
+   Floating Profile Image
+========================================== */
+
+const image=document.querySelector(".image-box");
+
+if(image){
+
+setInterval(()=>{
+
+image.animate([
+
+{transform:"translateY(0px)"},
+
+{transform:"translateY(-15px)"},
+
+{transform:"translateY(0px)"}
+
+],{
+
+duration:3000,
+
+iterations:1
+
+});
+
+},3000);
+
+}
+
+/* ==========================================
+   Back To Top Button
+========================================== */
+
+const topBtn=document.createElement("button");
+
+topBtn.innerHTML='<i class="fas fa-arrow-up"></i>';
+
+topBtn.className="topBtn";
+
+document.body.appendChild(topBtn);
+
+topBtn.onclick=()=>{
+
+window.scrollTo({
+
+top:0,
+
+behavior:"smooth"
+
+});
+
+};
+
+window.addEventListener("scroll",()=>{
+
+if(window.scrollY>400){
+
+topBtn.style.display="flex";
+
+}else{
+
+topBtn.style.display="none";
+
+}
+
+});
+
+topBtn.style.cssText=`
+
+position:fixed;
+bottom:30px;
+right:30px;
+width:55px;
+height:55px;
+display:none;
+justify-content:center;
+align-items:center;
+border:none;
+border-radius:50%;
+background:#00ffff;
+color:#000;
+font-size:22px;
+cursor:pointer;
+box-shadow:0 0 25px cyan;
+z-index:999;
+transition:.4s;
+
+`;
+
+/* ==========================================
+   Smooth Scrolling
+========================================== */
+
+document.querySelectorAll('a[href^="#"]').forEach(anchor=>{
+
+anchor.addEventListener("click",function(e){
+
+e.preventDefault();
+
+document.querySelector(this.getAttribute("href")).scrollIntoView({
+
+behavior:"smooth"
+
+});
+
+});
+
+});
+
+/* ==========================================
+   Console Welcome
+========================================== */
 
 console.log("%cWelcome to Mayur Kharade Portfolio 🚀",
 "color:cyan;font-size:18px;font-weight:bold;");
+/* ==========================================
+   PARTICLE BACKGROUND
+========================================== */
+
+const bg = document.querySelector(".background-animation");
+
+if (bg) {
+
+    for (let i = 0; i < 40; i++) {
+
+        const particle = document.createElement("span");
+
+        particle.classList.add("particle");
+
+        particle.style.left = Math.random() * 100 + "%";
+        particle.style.top = Math.random() * 100 + "%";
+
+        particle.style.width =
+            Math.random() * 12 + 6 + "px";
+
+        particle.style.height =
+            particle.style.width;
+
+        particle.style.animationDuration =
+            Math.random() * 10 + 8 + "s";
+
+        particle.style.animationDelay =
+            Math.random() * 5 + "s";
+
+        bg.appendChild(particle);
+
+    }
+
+}
+
+/* ==========================================
+   MOUSE GLOW EFFECT
+========================================== */
+
+const glow = document.createElement("div");
+
+glow.className = "cursor-glow";
+
+document.body.appendChild(glow);
+
+document.addEventListener("mousemove", (e) => {
+
+    glow.style.left = e.clientX + "px";
+    glow.style.top = e.clientY + "px";
+
+});
+
+/* ==========================================
+   PARALLAX HERO EFFECT
+========================================== */
+
+window.addEventListener("scroll", () => {
+
+    const hero = document.querySelector(".home-image");
+
+    if(hero){
+
+        hero.style.transform =
+        `translateY(${window.scrollY * 0.15}px)`;
+
+    }
+
+});
+
+/* ==========================================
+   SKILL CARD HOVER EFFECT
+========================================== */
+
+const cards = document.querySelectorAll(".skill-card");
+
+cards.forEach(card => {
+
+    card.addEventListener("mousemove", (e) => {
+
+        const x = e.offsetX;
+        const y = e.offsetY;
+
+        card.style.background =
+        `radial-gradient(circle at ${x}px ${y}px,
+        rgba(0,255,255,.35),
+        rgba(255,255,255,.08))`;
+
+    });
+
+    card.addEventListener("mouseleave", () => {
+
+        card.style.background =
+        "rgba(255,255,255,.08)";
+
+    });
+
+});
+
+/* ==========================================
+   RANDOM SPARKLES
+========================================== */
+
+setInterval(() => {
+
+    const sparkle = document.createElement("div");
+
+    sparkle.className = "sparkle";
+
+    sparkle.style.left =
+        Math.random() * window.innerWidth + "px";
+
+    sparkle.style.top =
+        Math.random() * window.innerHeight + "px";
+
+    document.body.appendChild(sparkle);
+
+    setTimeout(() => {
+
+        sparkle.remove();
+
+    }, 3000);
+
+}, 400);
+
+/* ==========================================
+   LOADING COMPLETE
+========================================== */
+
+window.addEventListener("load", () => {
+
+    document.body.classList.add("loaded");
+
+    console.log("Portfolio Loaded Successfully 🚀");
+
+});
