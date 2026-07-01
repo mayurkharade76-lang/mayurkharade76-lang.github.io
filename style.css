@@ -1,3 +1,50 @@
+/* Theme Toggle */
+
+.theme-toggle{
+    width:50px;
+    height:50px;
+    border:none;
+    border-radius:50%;
+    background:rgba(255,255,255,.1);
+    color:#fff;
+    cursor:pointer;
+    font-size:20px;
+    transition:.3s;
+}
+
+.theme-toggle:hover{
+    transform:rotate(180deg);
+    background:#00ffff;
+    color:#111;
+}
+
+body.light-mode{
+    background:#f5f7fb;
+    color:#111;
+}
+
+body.light-mode header{
+    background:rgba(255,255,255,.9);
+}
+
+body.light-mode .about-card,
+body.light-mode .skill-card,
+body.light-mode .project-card,
+body.light-mode .timeline-content,
+body.light-mode .resume-box,
+body.light-mode .contact-info,
+body.light-mode .contact-form,
+body.light-mode .stat-box{
+    background:#ffffff;
+    color:#111;
+}
+
+body.light-mode p,
+body.light-mode h2,
+body.light-mode h3,
+body.light-mode h4{
+    color:#111;
+}
 /* ==========================================
    PARTICLES
 ========================================== */
